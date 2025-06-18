@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -141,3 +143,4 @@ app.get('/api/leaderboard', async (req, res) => {
 httpServer.listen(config.port, () => {
 console.log(`Server running on http://localhost:${config.port} — Client: ${config.clientUrl}`);
 });
+
