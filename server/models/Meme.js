@@ -11,7 +11,6 @@ const MemeSchema = new mongoose.Schema({
   owner_id: String
 }, { timestamps: true });
 
-// Indexes for performance
 MemeSchema.index({ tags: 1 });
 MemeSchema.index({ upvotes: -1 });
 

@@ -3,15 +3,13 @@ import { useMeme } from './context/MemeContext'
 import MemeGrid from './components/MemeGrid'
 import CreateMemeForm from './components/CreateMemeForm'
 import Leaderboard from './components/Leaderboard'
-import React from 'react';
-
+import React from 'react'
 
 function App() {
   const { memes, loading, error, createMeme, castVote, placeBid } = useMeme()
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [showLeaderboard, setShowLeaderboard] = useState(false)
 
-  // Effect to manage body scroll lock
   useEffect(() => {
     if (showLeaderboard) {
       document.body.style.overflow = 'hidden'
@@ -19,7 +17,6 @@ function App() {
       document.body.style.overflow = 'unset'
     }
 
-    // Cleanup function to ensure we remove the lock when component unmounts
     return () => {
       document.body.style.overflow = 'unset'
     }
@@ -46,15 +43,14 @@ function App() {
     placeBid(id, amount, 'cyberpunk420')
   }
 
+  const isMobile = window.innerWidth <= 768
+
   return (
     <div className="min-h-screen bg-cyber-black text-white">
-      {/* Header */}
       <header className="py-4 sm:py-6 border-b border-neon-blue">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <h1 className="text-3xl sm:text-4xl font-bold text-neon-pink glitch">MemeHustle</h1>
-            
-            {/* Navigation Buttons - Visible on all screen sizes */}
             <div className="flex gap-3 sm:gap-4">
               <button
                 onClick={() => setShowLeaderboard(!showLeaderboard)}
@@ -73,9 +69,7 @@ function App() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        {/* Leaderboard Modal */}
         {showLeaderboard && (
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -95,19 +89,15 @@ function App() {
                   ✖
                 </button>
               </div>
-              <Leaderboard />
+              <Leaderboard onClose={() => setShowLeaderboard(false)} isMobile={isMobile} />
             </div>
           </div>
         )}
-
-        {/* Create Meme Form */}
         {showCreateForm && (
           <div className="mb-8">
             <CreateMemeForm onSubmit={handleCreateMeme} />
           </div>
         )}
-
-        {/* Meme Grid Section */}
         <div className="w-full">
           {loading ? (
             <div className="cyber-loading" />
@@ -119,6 +109,7 @@ function App() {
               onUpvote={handleUpvote}
               onDownvote={handleDownvote}
               onBid={handleBid}
+              isLeaderboardOpen={showLeaderboard}
             />
           )}
         </div>

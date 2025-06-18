@@ -1,7 +1,7 @@
+import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-// Mock user IDs for testing
 const MOCK_USERS = [
   'cyberpunk420',
   'neonRider',
@@ -14,7 +14,7 @@ const BidComponent = ({ memeId, initialBid = 0, onBidSubmit, error: externalErro
   const [inputValue, setInputValue] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [internalError, setInternalError] = useState(null);
-  const [currentUser] = useState(() => 
+  const [currentUser] = useState(() =>
     MOCK_USERS[Math.floor(Math.random() * MOCK_USERS.length)]
   );
 
@@ -51,11 +51,10 @@ const BidComponent = ({ memeId, initialBid = 0, onBidSubmit, error: externalErro
     }
   };
 
-  // Use external error if provided, otherwise use internal error
   const displayError = externalError || internalError;
 
   return (
-    <div style={{ padding: '1rem', border: '1px solid #4a9eff' }}>
+    <div style={{ padding: '1rem', border: '1px solid #0ff' }}>
       <div style={{ marginBottom: '1rem' }}>
         <span style={{ color: '#ff69b4' }}>
           Current Bid: {initialBid} credits
@@ -68,12 +67,12 @@ const BidComponent = ({ memeId, initialBid = 0, onBidSubmit, error: externalErro
           value={inputValue}
           onChange={handleChange}
           style={{
-            width: '100%',
+            width: '94%',
             padding: '0.5rem',
             marginBottom: '0.5rem',
             background: '#2a2a2a',
             color: 'white',
-            border: '1px solid #4a9eff'
+            border: '1px solid orange'
           }}
           placeholder="Enter bid amount..."
         />
@@ -90,7 +89,7 @@ const BidComponent = ({ memeId, initialBid = 0, onBidSubmit, error: externalErro
           style={{
             width: '100%',
             padding: '0.5rem',
-            background: isSubmitting ? '#666' : '#4a9eff',
+            background: isSubmitting ? '#666' : '#ff9900',
             color: 'white',
             border: 'none',
             cursor: isSubmitting ? 'not-allowed' : 'pointer'

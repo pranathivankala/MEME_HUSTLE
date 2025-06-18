@@ -2,33 +2,26 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import { createServer } from 'http';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { config } from './config.js';
 import SocketHandler from './socketHandler.js';
 import Meme from './models/Meme.js';
 import Bid from './models/Bid.js';
+import { generateCaptionAndVibe } from './geminiService.js'; 
 
 const app = express();
 const httpServer = createServer(app);
 const socketHandler = new SocketHandler(httpServer);
 const io = socketHandler.ioInstance;
 
-// Middleware
 app.use(cors({ origin: config.clientUrl }));
 app.use(express.json());
 
-// MongoDB connect
 mongoose.connect(config.mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Google Gemini
-const genAI = new GoogleGenerativeAI(config.geminiApiKey);
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-// Helpers
 const USERS = ['CyberPunk420', 'NeoSynth', 'GlitchQueen'];
 const IMAGES = [
   'https://i.imgflip.com/1bij.jpg',
@@ -41,31 +34,11 @@ const randomImage = () => IMAGES[Math.floor(Math.random() * IMAGES.length)];
 const isNonEmptyString = (val) => typeof val === 'string' && val.trim() !== '';
 const isValidTags = (tags) => Array.isArray(tags) && tags.every(t => typeof t === 'string');
 
-const generateAI = async (title, tags) => {
-  try {
-    const [caption, vibe] = await Promise.all([
-      model.generateContent(`Caption for meme titled "${title}" with tags: ${tags.join(', ')}`),
-      model.generateContent(`Cyberpunk vibe for meme titled "${title}"`)
-    ]);
-    return {
-      ai_caption: caption.response.text().trim(),
-      ai_vibe: vibe.response.text().trim()
-    };
-  } catch (err) {
-    return {
-      ai_caption: "Default caption.",
-      ai_vibe: "Neon Glitch Vibes"
-    };
-  }
-};
-
-// Routes
-
 app.post('/api/memes', async (req, res) => {
   try {
     const { title, imageUrl, tags } = req.body;
 
-    // Validation
+    
     if (!isNonEmptyString(title)) {
       return res.status(400).json({ error: 'Title is required and must be a non-empty string' });
     }
@@ -77,7 +50,7 @@ app.post('/api/memes', async (req, res) => {
     const image_url = isNonEmptyString(imageUrl) ? imageUrl : randomImage();
     const safeTags = tags || [];
 
-    const { ai_caption, ai_vibe } = await generateAI(title, safeTags);
+    const { ai_caption, ai_vibe } = await generateCaptionAndVibe(title, safeTags);
 
     const meme = new Meme({ title, image_url, tags: safeTags, owner_id, ai_caption, ai_vibe });
     await meme.save();
@@ -161,7 +134,6 @@ app.get('/api/leaderboard', async (req, res) => {
   }
 });
 
-// Start server
 httpServer.listen(config.port, () => {
   console.log(`Server running on http://localhost:${config.port}`);
 });

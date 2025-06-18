@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -19,7 +20,6 @@ const CreateMemeForm = ({ onSubmit }) => {
     try {
       console.log('Submitting meme:', formData);
       
-      // Validate form data
       if (!formData.title.trim()) {
         throw new Error('Title is required');
       }
@@ -38,7 +38,6 @@ const CreateMemeForm = ({ onSubmit }) => {
         tags: formData.tags
       });
 
-      // Reset form on success
       setFormData({ title: '', image_url: '', tags: [] });
       setTagInput('');
       
@@ -86,7 +85,7 @@ const CreateMemeForm = ({ onSubmit }) => {
       background: '#1a1a1a',
       padding: '1rem',
       borderRadius: '0.5rem',
-      border: '2px solid #4a9eff'
+      border: '1px solid #ff9900'
     }}>
       <form onSubmit={handleSubmit}>
         {error && (
@@ -103,7 +102,6 @@ const CreateMemeForm = ({ onSubmit }) => {
           </div>
         )}
 
-        {/* Title Input */}
         <div style={{ marginBottom: '1rem' }}>
           <label
             htmlFor="title"
@@ -128,7 +126,7 @@ const CreateMemeForm = ({ onSubmit }) => {
               width: '100%',
               padding: '0.5rem',
               background: '#2a2a2a',
-              border: '1px solid #4a9eff',
+              border: '1px solid #ff9900',
               borderRadius: '0.25rem',
               color: 'white'
             }}
@@ -136,7 +134,6 @@ const CreateMemeForm = ({ onSubmit }) => {
           />
         </div>
 
-        {/* Image URL Input */}
         <div style={{ marginBottom: '1rem' }}>
           <label
             htmlFor="image_url"
@@ -161,7 +158,7 @@ const CreateMemeForm = ({ onSubmit }) => {
               width: '100%',
               padding: '0.5rem',
               background: '#2a2a2a',
-              border: '1px solid #4a9eff',
+              border: '1px solid #ff9900',
               borderRadius: '0.25rem',
               color: 'white'
             }}
@@ -169,7 +166,6 @@ const CreateMemeForm = ({ onSubmit }) => {
           />
         </div>
 
-        {/* Tags Input */}
         <div style={{ marginBottom: '1rem' }}>
           <label style={{
             display: 'block',
@@ -198,7 +194,7 @@ const CreateMemeForm = ({ onSubmit }) => {
                   flex: 1,
                   padding: '0.5rem',
                   background: '#2a2a2a',
-                  border: '1px solid #4a9eff',
+                  border: '1px solid #ff9900',
                   borderRadius: '0.25rem',
                   color: 'white'
                 }}
@@ -228,7 +224,6 @@ const CreateMemeForm = ({ onSubmit }) => {
             </p>
           </div>
 
-          {/* Tags Display */}
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -271,14 +266,13 @@ const CreateMemeForm = ({ onSubmit }) => {
           </div>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={isSubmitting}
           style={{
             width: '100%',
             padding: '0.75rem',
-            background: isSubmitting ? '#666' : '#4a9eff',
+            background: isSubmitting ? '#666' : '#ff9900',
             border: 'none',
             borderRadius: '0.25rem',
             color: 'white',

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext,useState, useEffect, useRef} from 'react';
 import { api } from '../services/api';
 
 const MemeContext = createContext();
@@ -18,19 +18,17 @@ export const MemeProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const skipNextWebSocketUpdate = useRef(false);
 
-  // Load initial data
   useEffect(() => {
-    const loadData = async () => {
+    const loadInitialData = async () => {
       try {
         const [memesData, leaderboardData] = await Promise.all([
           api.getMemes(),
           api.getLeaderboard()
         ]);
 
-        // ✅ Fix: convert _id to id
-        const transformedMemes = memesData.map(meme => ({
+        const transformedMemes = memesData.map((meme) => ({
           ...meme,
-          id: meme._id,
+          id: meme._id
         }));
 
         setMemes(transformedMemes);
@@ -42,44 +40,51 @@ export const MemeProvider = ({ children }) => {
       }
     };
 
-    loadData();
+    loadInitialData();
   }, []);
 
-  // Subscribe to real-time updates
   useEffect(() => {
     const callbacks = {
-      onBid: ({ memeId, amount, userId }) => {
-        setMemes(prev => prev.map(meme =>
-          meme.id === memeId ? { ...meme, current_bid: amount } : meme
-        ));
+      onBid: ({ memeId, amount }) => {
+        setMemes((prev) =>
+          prev.map((meme) =>
+            meme.id === memeId ? { ...meme, current_bid: amount } : meme
+          )
+        );
       },
       onVote: ({ memeId, voteCount }) => {
-        setMemes(prev => prev.map(meme =>
-          meme.id === memeId ? { ...meme, upvotes: voteCount } : meme
-        ));
+        setMemes((prev) =>
+          prev.map((meme) =>
+            meme.id === memeId ? { ...meme, upvotes: voteCount } : meme
+          )
+        );
       },
       onNewMeme: (newMeme) => {
         if (skipNextWebSocketUpdate.current) {
           skipNextWebSocketUpdate.current = false;
           return;
         }
-
-        // ✅ Fix _id here too
-        setMemes(prev => [{ ...newMeme, id: newMeme._id }, ...prev]);
+        setMemes((prev) => [
+          { ...newMeme, id: newMeme._id },
+          ...prev
+        ]);
       }
     };
 
     api.socket.subscribeToUpdates(callbacks);
+
     return () => api.socket.unsubscribeFromUpdates();
   }, []);
 
-  // Actions
   const createMeme = async (memeData) => {
     try {
       skipNextWebSocketUpdate.current = true;
 
       const newMeme = await api.createMeme(memeData);
-      setMemes(prev => [{ ...newMeme, id: newMeme._id }, ...prev]);
+      setMemes((prev) => [
+        { ...newMeme, id: newMeme._id },
+        ...prev
+      ]);
 
       setTimeout(() => {
         skipNextWebSocketUpdate.current = false;
@@ -98,7 +103,7 @@ export const MemeProvider = ({ children }) => {
       const response = await fetch(`/api/memes/${memeId}/bid`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           userId,
@@ -112,9 +117,11 @@ export const MemeProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      setMemes(prev => prev.map(meme =>
-        meme.id === memeId ? { ...meme, current_bid: data.amount } : meme
-      ));
+      setMemes((prev) =>
+        prev.map((meme) =>
+          meme.id === memeId ? { ...meme, current_bid: data.amount } : meme
+        )
+      );
       return data;
     } catch (err) {
       setError(err.message);

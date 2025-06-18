@@ -2,12 +2,9 @@ import io from 'socket.io-client';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-// Initialize Socket.IO
 export const socket = io(API_URL);
 
-// Meme API calls
 export const api = {
-  // Get all memes
   getMemes: async () => {
     try {
       const response = await fetch(`${API_URL}/api/memes`);
@@ -19,7 +16,6 @@ export const api = {
     }
   },
 
-  // Create a new meme
   createMeme: async (memeData) => {
     try {
       const imageUrl = memeData.image_url || memeData.imageUrl;
@@ -56,7 +52,6 @@ export const api = {
     }
   },
 
-  // Get leaderboard
   getLeaderboard: async () => {
     try {
       const response = await fetch(`${API_URL}/api/leaderboard`);
@@ -68,7 +63,6 @@ export const api = {
     }
   },
 
-  // Place a bid
   placeBid: async ({ memeId, userId, credits }) => {
     try {
       const response = await fetch(`${API_URL}/api/memes/${memeId}/bid`, {
@@ -91,21 +85,17 @@ export const api = {
     }
   },
 
-  // Socket.IO events
   socket: {
-    // Cast a vote
     castVote: (memeId, userId, voteType) => {
       socket.emit('vote', { memeId, userId, voteType });
     },
 
-    // Subscribe to updates
     subscribeToUpdates: (callbacks) => {
       socket.on('bidUpdate', callbacks.onBid);
       socket.on('voteUpdate', callbacks.onVote);
       socket.on('newMeme', callbacks.onNewMeme);
     },
 
-    // Unsubscribe from updates
     unsubscribeFromUpdates: () => {
       socket.off('bidUpdate');
       socket.off('voteUpdate');

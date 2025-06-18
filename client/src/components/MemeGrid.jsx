@@ -1,29 +1,12 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import MemeCard from './MemeCard';
-import React from 'react';
 
-
-const MemeGrid = ({ memes, onUpvote, onDownvote, onBid }) => {
+const MemeGrid = ({ memes, onUpvote, onDownvote, onBid, isLeaderboardOpen }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
-      {/* Grid Lines Overlay */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="w-full h-full grid grid-cols-12 gap-4">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-full border-l border-neon-blue opacity-10"
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Meme Cards */}
+    <div className="meme-grid">
       {memes.map((meme) => (
-        <div
-          key={meme.id}
-          className="relative z-10 transform hover:-translate-y-1 transition-transform duration-300"
-        >
+        <div key={meme.id} className="relative z-10">
           <MemeCard
             meme={meme}
             onUpvote={onUpvote}
@@ -33,13 +16,14 @@ const MemeGrid = ({ memes, onUpvote, onDownvote, onBid }) => {
         </div>
       ))}
 
-      {/* Empty State */}
-      {memes.length === 0 && (
-        <div className="col-span-full text-center py-12">
-          <div className="cyber-panel inline-block p-8">
-            <p className="text-neon-pink text-xl mb-4">No memes in the grid</p>
-            <p className="text-neon-blue">Be the first to upload a cyberpunk meme!</p>
-          </div>
+      {memes.length === 0 && !isLeaderboardOpen && (
+        <div className="no-memes-box text-center py-8">
+          <p className="text-neon-pink text-xl mb-2">
+            No memes in the grid
+          </p>
+          <p className="text-neon-blue text-lg">
+            Be the first to upload a cyberpunk meme!
+          </p>
         </div>
       )}
     </div>
@@ -63,6 +47,7 @@ MemeGrid.propTypes = {
   onUpvote: PropTypes.func.isRequired,
   onDownvote: PropTypes.func.isRequired,
   onBid: PropTypes.func.isRequired,
+  isLeaderboardOpen: PropTypes.bool.isRequired,
 };
 
-export default MemeGrid; 
+export default MemeGrid;
