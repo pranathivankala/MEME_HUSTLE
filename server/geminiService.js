@@ -4,7 +4,7 @@ dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const model = genAI.getGenerativeModel({ model: "models/gemini-pro" }); // ✅ FIXED HERE
+const model = genAI.getGenerativeModel({ model: "models/gemini-pro" }); 
 
 export async function generateCaptionAndVibe(title, tags = []) {
   const prompt = `
