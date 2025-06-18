@@ -10,27 +10,31 @@ body {
 
 
 :root {
-  --neon-blue: #ff914d;        
-  --neon-pink: #ff69b4;        
-  --neon-purple: #ffaaff;      
-  --cyber-black: #0a0a0a;      
-  --cyber-dark: #1a1a1a;       
-  --cyber-gray: #2a2a2a;       
+  --neon-blue: #ff914d;
+  --neon-pink: #ff69b4;
+  --neon-purple: #ffaaff;
+  --cyber-black: #0a0a0a;
+  --cyber-dark: #1a1a1a;
+  --cyber-gray: #2a2a2a;
 }
 
 
 .text-3xl {
   font-size: 2rem;
 }
+
 .text-4xl {
   font-size: 2.25rem;
 }
+
 .font-bold {
   font-weight: bold;
 }
+
 .text-neon-pink {
   color: var(--neon-pink);
 }
+
 .text-neon-blue {
   color: var(--neon-blue);
 }
@@ -40,16 +44,20 @@ body {
   margin: 0 auto;
   padding: 0 20px;
 }
+
 .flex {
   display: flex;
   flex-wrap: wrap;
 }
+
 .justify-between {
   justify-content: space-between;
 }
+
 .items-center {
   align-items: center;
 }
+
 .gap-4 {
   gap: 1rem;
 }
@@ -67,9 +75,11 @@ body {
   font-weight: 500;
   margin-left: 1rem;
 }
+
 .neon-button:first-child {
   margin-left: 0;
 }
+
 .neon-button:hover {
   background-color: var(--neon-blue);
   color: var(--cyber-black);
@@ -85,6 +95,7 @@ body {
   align-items: center;
   z-index: 1000;
 }
+
 .modal-content {
   background: var(--cyber-black);
   padding: 2rem;
@@ -96,6 +107,7 @@ body {
   position: relative;
   text-align: left;
 }
+
 .modal-close-btn {
   position: absolute;
   top: 1rem;
@@ -108,6 +120,7 @@ body {
   cursor: pointer;
   padding: 0.5rem;
 }
+
 .modal-close-btn:hover {
   background: var(--neon-pink);
   color: black;
@@ -116,12 +129,14 @@ body {
 .form-group {
   margin-bottom: 1rem;
 }
+
 .form-label {
   display: block;
   color: var(--neon-blue);
   margin-bottom: 0.5rem;
   font-weight: bold;
 }
+
 .form-input,
 .form-textarea {
   width: 100%;
@@ -132,6 +147,7 @@ body {
   border-radius: 4px;
   font-size: 1rem;
 }
+
 .form-submit {
   width: 100%;
   background-color: var(--neon-blue);
@@ -143,6 +159,7 @@ body {
   cursor: pointer;
   transition: 0.3s ease;
 }
+
 .form-submit:hover {
   background-color: var(--neon-pink);
   border-color: var(--neon-pink);
@@ -160,21 +177,28 @@ body {
   box-shadow: 0 0 20px #000;
   transition: transform 0.3s;
 }
+
 .meme-image-container {
   border: 2px solid #ec7a1d80;
-  border-radius: 25px;
+  height: 250px;
+  border-radius: 15px;
   overflow: hidden;
 }
+
 .meme-image {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
   border-radius: 6px;
 }
+
 .meme-title {
   font-size: 1.5rem;
   color: #e38a1d;
   margin: 12px 0;
 }
+
 .meme-ai-box {
   background-color: #111;
   border: 1px solid #d7e8e833;
@@ -182,36 +206,43 @@ body {
   border-radius: 6px;
   margin-bottom: 10px;
 }
+
 .meme-caption {
   font-family: monospace;
   font-size: 0.9rem;
   color: #0ff;
 }
+
 .meme-vibe {
   font-size: 0.8rem;
   color: #ff4ad4;
   font-style: italic;
 }
+
 .vote-section {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-top: 10px;
 }
+
 .vote-count {
   font-size: 1.2rem;
   font-weight: bold;
 }
+
 .vote-error {
   color: red;
   margin-top: 5px;
 }
+
 .tag-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 10px;
 }
+
 .tag {
   font-size: 0.8rem;
   color: #0ff;
@@ -219,14 +250,17 @@ body {
   padding: 4px 8px;
   border-radius: 4px;
 }
+
 .creator {
   font-size: 0.85rem;
   margin-top: 8px;
 }
+
 .creator-name {
   color: #1e2feb;
   font-weight: bold;
 }
+
 .bid-box {
   background-color: #111;
   border: 1px solid #aee11470;
@@ -234,6 +268,7 @@ body {
   margin-top: 10px;
   border-radius: 6px;
 }
+
 .bid-amount {
   color: #ff4a4a;
   margin-bottom: 6px;
@@ -273,6 +308,7 @@ body {
   text-align: center;
   z-index: 10;
 }
+
 .no-memes-box p {
   margin: 0.5rem 0;
   font-size: 1.1rem;
@@ -286,15 +322,24 @@ body {
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 640px) {
-  .text-3xl, .text-4xl {
+
+  .text-3xl,
+  .text-4xl {
     font-size: 1.75rem;
   }
+
   .neon-button {
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
