@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
+
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -8,7 +9,7 @@ import { config } from './config.js';
 import SocketHandler from './socketHandler.js';
 import Meme from './models/Meme.js';
 import Bid from './models/Bid.js';
-import { generateCaptionAndVibe } from './geminiService.js'; 
+import { generateCaptionAndVibe } from './geminiService.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -22,11 +23,9 @@ app.use(cors({
 }));
 app.use(express.json());
 
-mongoose.connect(config.mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
 const USERS = ['CyberPunk420', 'NeoSynth', 'GlitchQueen'];
 const IMAGES = [
@@ -44,7 +43,6 @@ app.post('/api/memes', async (req, res) => {
   try {
     const { title, imageUrl, tags } = req.body;
 
-    
     if (!isNonEmptyString(title)) {
       return res.status(400).json({ error: 'Title is required and must be a non-empty string' });
     }
@@ -141,6 +139,5 @@ app.get('/api/leaderboard', async (req, res) => {
 });
 
 httpServer.listen(config.port, () => {
-console.log(`Server running on http://localhost:${config.port} — Client: ${config.clientUrl}`);
+  console.log(`Server running on http://localhost:${config.port} — Client: ${config.clientUrl}`);
 });
-
