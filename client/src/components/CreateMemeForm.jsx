@@ -19,7 +19,7 @@ const CreateMemeForm = ({ onSubmit }) => {
 
     try {
       console.log('Submitting meme:', formData);
-      
+
       if (!formData.title.trim()) {
         throw new Error('Title is required');
       }
@@ -34,13 +34,13 @@ const CreateMemeForm = ({ onSubmit }) => {
 
       await onSubmit({
         title: formData.title.trim(),
-        image_url: formData.image_url.trim(),
+        imageUrl: formData.image_url.trim(),
         tags: formData.tags
       });
 
       setFormData({ title: '', image_url: '', tags: [] });
       setTagInput('');
-      
+
     } catch (err) {
       console.error('Error creating meme:', err);
       setError(err.message || 'Failed to create meme');
@@ -52,19 +52,19 @@ const CreateMemeForm = ({ onSubmit }) => {
   const handleAddTag = (e) => {
     e.preventDefault();
     const tag = tagInput.trim().toLowerCase();
-    
+
     if (!tag) return;
-    
+
     if (tag.includes(' ')) {
       setError('Tags cannot contain spaces');
       return;
     }
-    
+
     if (formData.tags.includes(tag)) {
       setError('Tag already exists');
       return;
     }
-    
+
     setFormData(prev => ({
       ...prev,
       tags: [...prev.tags, tag]
@@ -81,7 +81,7 @@ const CreateMemeForm = ({ onSubmit }) => {
   };
 
   return (
-    <div style={{ 
+    <div style={{
       background: '#1a1a1a',
       padding: '1rem',
       borderRadius: '0.5rem',
@@ -215,10 +215,10 @@ const CreateMemeForm = ({ onSubmit }) => {
                 Add
               </button>
             </div>
-            <p style={{ 
-              fontSize: '0.75rem', 
+            <p style={{
+              fontSize: '0.75rem',
               color: '#666',
-              marginTop: '0.25rem' 
+              marginTop: '0.25rem'
             }}>
               Press Enter or click Add to add a tag
             </p>

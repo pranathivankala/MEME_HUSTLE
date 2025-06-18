@@ -28,13 +28,8 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
 const USERS = ['CyberPunk420', 'NeoSynth', 'GlitchQueen'];
-const IMAGES = [
-  'https://i.imgflip.com/1bij.jpg',
-  'https://i.imgflip.com/26am.jpg'
-];
 
 const randomUser = () => USERS[Math.floor(Math.random() * USERS.length)];
-const randomImage = () => IMAGES[Math.floor(Math.random() * IMAGES.length)];
 
 const isNonEmptyString = (val) => typeof val === 'string' && val.trim() !== '';
 const isValidTags = (tags) => Array.isArray(tags) && tags.every(t => typeof t === 'string');
