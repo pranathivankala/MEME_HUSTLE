@@ -13,7 +13,11 @@ const httpServer = createServer(app);
 const socketHandler = new SocketHandler(httpServer);
 const io = socketHandler.ioInstance;
 
-app.use(cors({ origin: config.clientUrl }));
+app.use(cors({
+  origin: config.clientUrl,
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 app.use(express.json());
 
 mongoose.connect(config.mongoUri, {
@@ -135,5 +139,5 @@ app.get('/api/leaderboard', async (req, res) => {
 });
 
 httpServer.listen(config.port, () => {
-  console.log(`Server running on http://localhost:${config.port}`);
+console.log(`Server running on http://localhost:${config.port} — Client: ${config.clientUrl}`);
 });
